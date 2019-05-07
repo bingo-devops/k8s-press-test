@@ -1,0 +1,19 @@
+server:
+  port: 8000
+  compression:
+    enabled: true
+
+spring:
+  jpa:
+    database: mysql
+    show-sql: false
+    hibernate:
+      generate-ddl: true
+      cache:
+        use_query_cache: false
+    properties.hibernate.enable_lazy_load_no_trans: true
+    open-in-view: true
+  datasource:
+    url: jdbc:mysql://10.200.21.38:31095/k8s_test?characterEncoding=utf-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false
+    username: root
+    password: 123456
