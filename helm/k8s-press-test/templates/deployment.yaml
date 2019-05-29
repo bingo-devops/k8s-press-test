@@ -1,0 +1,66 @@
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: k8s-press-test
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1beta1
+    kind: Deployment
+    name: k8s-press-test
+  minReplicas: {{ .Values.press.scaler.minReplicas }}
+  maxReplicas: {{ .Values.press.scaler.maxReplicas }}
+  targetCPUUtilizationPercentage: {{ .Values.press.scaler.targetCPUUtilizationPercentage }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: k8s-press-test
+spec:
+  type: NodePort
+  ports:
+  - port: 8080
+    name: http
+    nodePort: {{.Values.press.nodePort}}
+  selector:
+    app: k8s-press-test
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: k8s-press-test
+spec:
+  template:
+    metadata:
+      labels:
+        app: k8s-press-test
+    spec:
+      containers:
+      - name: k8s-press-test
+        image: registry.bingosoft.net/test/k8s-press-test
+        imagePullPolicy: Always
+        livenessProbe:
+          failureThreshold: {{.Values.press.livenessProbe.failureThreshold}}
+          httpGet:
+            path: /testCpu?content=test&num=10
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 30
+          periodSeconds: {{.Values.press.livenessProbe.periodSeconds}}
+          successThreshold: 1
+          timeoutSeconds: {{.Values.press.livenessProbe.timeoutSeconds}}
+        resources:
+          requests:
+            cpu: "1"
+            memory: "4Gi"
+          limits:
+            cpu: "{{.Values.press.resources.limits.cpu}}"
+            memory: "4Gi"
+        env:
+        - name: spring.datasource.url
+          value: "{{.Values.press.dbUrl}}"
+        - name: spring.datasource.username
+          value: "{{.Values.press.dbUsername}}"
+        - name: spring.datasource.password
+          value: "{{.Values.press.dbPassword}}"
+        ports:
+        - containerPort: 8080

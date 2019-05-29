@@ -1,0 +1,60 @@
+questions:
+- variable: press.dbUrl
+  default: jdbc:mysql://mysql:3306/k8s_press_test?characterEncoding=utf-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=false
+  label: 数据库连接字符串
+  type: string
+  group: 数据库
+- variable: press.dbUsername
+  default: root
+  label: 数据库用户名
+  type: string
+  group: 数据库
+- variable: press.dbPassword
+  default: Pass@word1
+  label: 数据库密码
+  type: string
+  group: 数据库
+
+- variable: press.nodePort
+  default: 
+  label: 端口号
+  type: string
+  group: 全局
+
+- variable: press.livenessProbe.periodSeconds
+  default: 60
+  label: 检查间隔时间
+  type: string
+  group: 存活检查
+- variable: press.livenessProbe.timeoutSeconds
+  default: 10
+  label: 请求超时时间
+  type: string
+  group: 存活检查
+- variable: press.livenessProbe.failureThreshold
+  default: 2
+  label: 失败阈值
+  type: string
+  group: 存活检查
+
+- variable: press.resources.limits.cpu
+  default: 4
+  label: CPU
+  type: string
+  group: 资源限制
+
+- variable: press.scaler.minReplicas
+  default: 1
+  label: 最小副本数
+  type: string
+  group: 自动伸缩
+- variable: press.scaler.maxReplicas
+  default: 12
+  label: 最大副本数
+  type: string
+  group: 自动伸缩
+- variable: press.scaler.targetCPUUtilizationPercentage
+  default: 70
+  label: CPU阈值
+  type: string
+  group: 自动伸缩

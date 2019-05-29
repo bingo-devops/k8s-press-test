@@ -1,0 +1,19 @@
+press:
+  scaler:
+    minReplicas: 1
+    maxReplicas: 10
+    targetCPUUtilizationPercentage: 70
+
+  livenessProbe:
+    periodSeconds: 60
+    timeoutSeconds: 10
+    failureThreshold: 2
+  
+  resources:
+    limits:
+      cpu:
+
+  nodePort: 0
+  dbUrl: 
+  dbUsername: 
+  dbPassword: 
