@@ -37,8 +37,8 @@ public class IndexController {
 	private TestService testService;
 
 	@GetMapping("/testCpu")
-	public int testCpu(@RequestParam("num") int num, @RequestParam("content") String content) {
-		return testService.testCpu(num, content).length;
+	public String[] testCpu(@RequestParam("num") int num, @RequestParam("content") String content) {
+		return testService.testCpu(num, content);
 	}
 
 	@GetMapping("/testIo")
